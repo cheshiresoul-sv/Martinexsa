@@ -3,12 +3,12 @@ GO
 
 -- LIMPIAR TABLA inv_rubro
 -------------------------------------------------------------------------------
-DELETE FROM tst.inv_articulo;
-DELETE FROM tst.inv_sub_rubro;
-DELETE FROM tst.inv_rubro;
 DELETE FROM tst.vta_pedido_detalle;
 DELETE FROM tst.vta_pedido;
 DELETE FROM tst.vta_cliente;
+DELETE FROM tst.inv_sub_rubro;
+DELETE FROM tst.inv_articulo;
+DELETE FROM tst.inv_rubro;
 DELETE FROM tst.gral_individuo;
 
 

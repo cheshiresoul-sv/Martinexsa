@@ -1,0 +1,12 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="(localdb)_MSSQLLocalDB"
+  DTS:DTSID="{32FE212E-5C57-4C34-A1E4-8EBC0E2B6F1C}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=(localdb)\MSSQLLocalDB;Provider=SSISOLEDB.3;" />
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

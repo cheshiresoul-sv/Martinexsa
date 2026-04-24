@@ -194,6 +194,18 @@ REFERENCES [tst].[inv_articulo] ([id_articulo])
 GO
 
 
+-- LogEjecucion
+-------------------------------------------------------------------------------
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.LogEjecucion') AND type = 'U')
+BEGIN
+    CREATE TABLE dbo.LogEjecucion (
+        IdLog INT IDENTITY(1,1) PRIMARY KEY,
+        Archivo NVARCHAR(255),
+        FechaProceso DATETIME,
+        Estado NVARCHAR(50)
+    );
+END
+GO
 
 use master
 go

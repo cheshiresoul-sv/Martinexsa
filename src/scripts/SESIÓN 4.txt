@@ -1,0 +1,77 @@
+1. La empresa tiene un paquete SSIS que procesa archivos de ventas 
+diarios y los inserta en un Data Warehouse. Últimamente, el paquete 
+presenta inconsistencias en los datos y errores intermitentes. 
+Control Flow: 
+• Execute SQL Task: Obtiene la fecha de proceso 
+• Foreach Loop Container: Recorre archivos en una carpeta 
+• Data Flow Task: Procesa cada archivo 
+• Execute SQL Task: Inserta log de ejecución 
+Data Flow: 
+• Flat File Source → Derived Column → Lookup → OLE DB 
+Destination 
+
+
+Problemas reportados 
+• Problema 1: El paquete no procesa todos los archivos del 
+directorio (solo toma uno o algunos).
+• Problema 2: Algunos registros se duplican en la tabla destino. 
+• Problema 3: El Lookup está enviando muchos registros a error 
+(no encuentra coincidencias). 
+
+Problema 1: 
+• ¿Cuál es la causa más probable? 
+R/ Puede ser que la variable de ruta no se esté actualizando en cada iteración del bucle. Puede ser que no esté mapeado de forma correcta ni en la variable o expresión del connectionstring
+
+• ¿Qué configuración del Foreach Loop debería revisar? 
+R/ Variables de Mapeo
+
+Problema 2: 
+• ¿Por qué podrían generarse registros duplicados? 
+R/ Puede no estar verificando las claves primarias al insertar, o falla y se reinicia el proceso sin tener control de lo insertado. Ejecuciones simultáneas
+• ¿Qué estrategias usaría para evitar duplicados en SSIS? 
+R/ Si es posible una tabla intermedia de control que puede limpiar antes de insertar.
+Usar merge
+
+Problema 3: 
+• ¿Qué tipo de Lookup está probablemente configurado? 
+R/ Fail component
+• ¿Cómo manejar correctamente los registros no encontrados?
+R/ Cambiar el comportamiento de error y conectar la flecha de error a una tabla de control de errores o registros fallidos
+
+-------------------------------------------------------------------------------
+2. Una empresa cuenta con un paquete de SSIS que realiza la carga diaria 
+de información a partir de archivos CSV. Recientemente, este proceso 
+ha comenzado a presentar múltiples errores y comportamientos 
+inesperados. 
+Control Flow: 
+• File System Task: Se encarga de validar si el archivo existe 
+• Data Flow Task: Realiza la carga de datos desde el CSV hacia SQL 
+Server 
+• Execute SQL Task: Actualiza una tabla de control al finalizar 
+Data Flow: 
+• Flat File Source → Data Conversion → OLE DB Destination 
+Problemas reportados 
+• Problema 1: El paquete falla mostrando el error: "The file name 
+is not properly specified. Supply a proper file name" 
+• Problema 2: Algunos registros se cargan con formatos 
+incorrectos (por ejemplo, fechas almacenadas como texto). 
+• Problema 3: Cuando el archivo no se encuentra, el paquete 
+termina con error en lugar de finalizar correctamente. 
+
+Problema 1: 
+• ¿	Cuál consideras que es la causa más probable del error? 
+R/ La conexión del Flat File Manager está vacía o es a otra ruta
+• ¿Cómo lo solucionarías utilizando variables y expresiones dentro de SSIS? 
+R/ Verificar la expresión en propiedades del connection manager
+
+Problema 2: 
+• ¿Qué componente del flujo de datos deberías revisar? 
+R/ La conversión de datos o Data Conversion
+• ¿Cómo asegurarías una correcta conversión de tipos de datos? 
+R/ Mapear en el destino las columnas convertidas no las originales
+
+Problema 3: 
+• ¿Qué ajuste realizarías en el File System Task? 
+R/ Ajustar el error o la propiedad de error a False
+• ¿Cómo permitirías que el paquete continúe su ejecución cuando el archivo no exista?
+R/ Propiedad de la tarea: Cambiar FailPackageOnFailure a False en el File System Task.
